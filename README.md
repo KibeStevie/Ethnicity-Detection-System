@@ -1,146 +1,149 @@
-🌍 Ethnicity Detection System
-A Flask-based web API that detects human ethnicity from facial images using a trained Convolutional Neural Network (CNN). Built with TensorFlow/Keras, OpenCV, and Flask, this system uses the UTKFace dataset for training and supports real-time inference via a simple HTTP endpoint.
+# 🌍 Ethnicity Detection System
+<p>A Flask-based web API that detects human ethnicity from facial images using a trained Convolutional Neural Network (CNN). Built with TensorFlow/Keras, OpenCV, and Flask, this system uses the UTKFace dataset for training and supports real-time inference via a simple HTTP endpoint.</p>
+💡<strong>Ethical Note:</strong> This tool is for educational and research purposes only. Ethnicity is a social construct, and automated classification can be inaccurate or biased. Do <strong>not</strong> use in sensitive contexts (e.g., hiring, law enforcement, or surveillance).
 
-⚠️ Ethical Note: This tool is for educational and research purposes only. Ethnicity is a social construct, and automated classification can be inaccurate or biased. Do not use in sensitive contexts (e.g., hiring, law enforcement, or surveillance).
+## 📦 Features
+- Accepts JPG/JPEG face images via HTTP POST
+- Returns predicted ethnicity and confidence score
+- Pre-trained CNN model (saved as ethnicity_cnn_model.h5)
+- Cross-platform (Windows, macOS, Linux)
+- Lightweight and easy to deploy
 
-📦 Features
-Accepts JPG/JPEG face images via HTTP POST
-Returns predicted ethnicity and confidence score
-Pre-trained CNN model (saved as ethnicity_cnn_model.h5)
-Cross-platform (Windows, macOS, Linux)
-Lightweight and easy to deploy
-Supported Ethnicity Labels:
+### Supported Ethnicity Labels
+<ul>
+   <li><code>White</code></li>
+   <li><code>Black</code></li>
+   <li><code>Asian</code></li>
+   <li><code>Indian</code></li>
+   <li><code>Others</code></li>
+</ul>
 
-White
-Black
-Asian
-Indian
-Others
-🛠️ Tech Stack
-Machine Learning: TensorFlow 2.x, Keras
-Backend: Flask
-Image Processing: OpenCV, NumPy
-Dataset: UTKFace
-📁 Project Structure
-123456
-ethnicity-detection/
-├── ethnicity_cnn_model.h5 # Trained model (must be placed here)
-├── app.py # Flask API server
-├── requirements.txt # Python dependencies
-├── README.md
-└── uploads/ # (Auto-created) Temporary image storage
-🚀 Setup & Installation
+## 🛠️ Tech Stack
+- TensorFlow 2.x
+-  Keras
+-  Flask
+-  OpenCV
+-  NumPy
+- Dataset: <a href="https://www.kaggle.com/datasets/jangedoo/utkface-new" target="_blank">UTKFace</a>
 
-1. Prerequisites
-   Python 3.8+
-   pip package manager
-   Trained model file: ethnicity_cnn_model.h5
-   (Place it in the project root)
-2. Clone or Create Project Folder
-   bash
-   12
-   mkdir ethnicity-detection
-   cd ethnicity-detection
-3. Create Virtual Environment (Recommended)
-   bash
-   1234567
+## 📁 Project Structure
+<pre>ethnicity-detection/
+├── ethnicity_cnn_model.h5      # Trained model (must be placed here)
+├── app.py                      # Flask API server
+├── requirements.txt            # Python dependencies
+├── README.html                 # This file
+</pre>
 
-# Windows
+## 🚀 Setup & Installation
+### 1. Prerequisites
+<ul>
+   <li>Python 3.8+</li>
+   <li><code>pip</code> package manager</li>
+   <li>Trained model file: <code>ethnicity_cnn_model.h5</code> (place in project root)</li>
+</ul>
 
-python -m venv .venv
-.venv\Scripts\activate
+### 2. Create Virtual Environment</h3>
+<div>Windows:
+<span>.venv\Scripts\activate</span>
+macOS/Linux:
+<span>source .venv/bin/activate</span></div>
 
-# macOS/Linux
+### 3. Install Dependencies
+```
+pip install -r requirements.txt
+```
 
-python3 -m venv .venv
-source .venv/bin/activate 4. Install Dependencies
-bash
-1
-🔍 Don’t have requirements.txt?
-Run pip install flask tensorflow opencv-python numpy then pip freeze > requirements.txt.
+### 4. Add Your Model</h3>
+<p>Place <code>ethnicity_cnn_model.h5</code> in the project root directory.</p>
 
-5. Add Your Model
-   Place your trained model file in the project root:
+## ▶️ Running the API</h2>
+Run this in the terminal  
+```
+python app.py
+```
+<p>You should see:</p>
+<code>Loading model... <br>
+Model loaded successfully! <br>
+* Running on http://0.0.0.0:5000 <br> </code>
+<p>The API is now live at <code>http://localhost:5000</code>.</p>
 
-12
-▶️ Running the API
-Start the Flask server:
+## 🧪 Testing the API
+#### Endpoint: <code>POST /predict</code>
+<p>Send a <strong>JPG</strong> image file via the <code>image</code> form field.</p>
 
-bash
-1
-You should see:
-
-123
-The API is now live at http://localhost:5000.
-
-🧪 Testing the API
-✅ Endpoint: POST /predict
-Send a JPG/JPEG image file via the image form field.
-
-Method 1: Using curl (Terminal)
-bash
-1
+#### Method 1: Using <code>curl</code> (Terminal)
+```
 curl -X POST -F "image=@your_face.jpg" http://localhost:5000/predict
-Method 2: Using Insomnia / Postman
-URL: http://localhost:5000/predict
-Method: POST
-Body: Multipart Form
-Key: image
-Type: File
-Value: Select a .jpg image
-✅ Success Response
-json
-1234
-{
+```
+
+#### Method 2: Using Insomnia / Postman
+<ul>
+<li><strong>URL:</strong> <code>http://localhost:5000/predict</code></li>
+<li><strong>Method:</strong> <code>POST</code></li>
+<li><strong>Body:</strong> <code>Multipart Form</code>
+  <ul>
+    <li>Key: <code>image</code></li>
+    <li>Type: <code>File</code></li>
+    <li>Value: Select a <code>.jpg</code> image</li>
+  </ul>
+</li>
+</ul>
+
+#### ✅ Success Response
+<pre>{
 "ethnicity": "Asian",
 "confidence": 0.9821
-}
-❌ Error Responses
-400: "No image provided" or "Only JPG/JPEG images are allowed"
-500: Internal error (e.g., corrupted image, model issue)
-📝 API Specification
-Parameter
-Type
-Required
-Description
-image
-file
-Yes
-JPG/JPEG facial image (<5 MB recommended)
-📌 Note: PNG, BMP, GIF, etc. are rejected for consistency with training data.
+}</pre>
 
-🧹 Cleanup & Safety
-Uploaded images are never stored permanently — they are saved temporarily and deleted immediately after prediction.
-Filename is sanitized using secure_filename() to prevent path traversal attacks.
-📦 Deployment Tips
-For Production:
-Use Gunicorn or uWSGI instead of Flask’s dev server
-Add file size limits (e.g., 5 MB max)
-Validate image content (not just extension)
-Serve behind Nginx with HTTPS
-Use Docker for containerization
-Example Dockerfile (Optional)
-Dockerfile
-1234567891011
-FROM python:3.10-slim
+#### ❌ Error Responses
+<p><code>400</code>: "No image provided" or "Only JPG images are allowed"</p>
+<p><code>500</code>: Internal error (e.g., corrupted image, model issue)</p>
 
-WORKDIR /app
-COPY requirements.txt .
-RUN pip install --no-cache-dir -r requirements.txt
+## 📝 API Specification</h2>
+<table>
+<thead>
+  <tr>
+    <th>Parameter</th>
+    <th>Type</th>
+    <th>Required</th>
+    <th>Description</th>
+  </tr>
+</thead>
+<tbody>
+  <tr>
+    <td><code>image</code></td>
+    <td><code>file</code></td>
+    <td>Yes</td>
+    <td>JPG facial image (&lt;5 MB recommended)</td>
+  </tr>
+</tbody>
+</table>
+<p><strong>Note:</strong> PNG, BMP, GIF, etc. are <strong>rejected</strong> for consistency with training data.</p>
 
-COPY ethnicity_cnn_model.h5 .
-COPY app.py .
+## 🧹 Cleanup & Safety
+ <ul>
+   <li>Uploaded images are <strong>never stored permanently</strong> — deleted immediately after prediction</li>
+   <li>Filenames sanitized using <code>secure_filename()</code> to prevent path traversal attacks</li>
+ </ul>
 
-EXPOSE 5000
+## 📦 Deployment Tips</h2>
+<ul>
+   <li>Use <strong>Gunicorn</strong> or <strong>uWSGI</strong> instead of Flask’s dev server</li>
+   <li>Add file size limits (e.g., 5 MB max)</li>
+   <li>Validate image content (not just extension)</li>
+   <li>Serve behind <strong>Nginx</strong> with HTTPS</li>
+   <li>Use <strong>Docker</strong> for containerization</li>
+</ul>
 
-📚 References
-Dataset: UTKFace on Kaggle
-Model Architecture: Custom CNN (3 Conv layers + GlobalAvgPool + Dense)
-Ethnicity Labels: As defined in UTKFace (0=White, 1=Black, 2=Asian, 3=Indian, 4=Others)
-🙏 Acknowledgements
-UTKFace dataset creators
-TensorFlow & Flask open-source communities
-📜 License
-This project is for educational use only. No license granted for commercial deployment without ethical review.
+## 📚 References
+<ul>
+   <li><strong>Dataset:</strong> <a href="https://www.kaggle.com/datasets/jangedoo/utkface-new" target="_blank">UTKFace on Kaggle</a></li>
+   <li><strong>Model Architecture:</strong> Custom CNN (3 Conv layers + GlobalAvgPool + Dense)</li>
+   <li><strong>Ethnicity Labels:</strong> As defined in UTKFace (0=White, 1=Black, 2=Asian, 3=Indian, 4=Others)</li>
+</ul>
 
+## 📜 License</h2>
+<p>This project is for <strong>educational use only</strong>. No license granted for commercial deployment without ethical review.</p>
+<pre>
 💡 Tip: Always test with diverse, non-sensitive images. Never assume accuracy or fairness in biometric inference systems.
+</pre>
